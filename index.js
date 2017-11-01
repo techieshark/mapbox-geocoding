@@ -3,8 +3,10 @@
  */
 var request = require('request');
 
-var BASE_URL = 'http://api.tiles.mapbox.com/v4/geocode/';
+var BASE_URL = 'https://api.mapbox.com/geocoding/v5/';
 var ACCESS_TOKEN = null;
+var CENTER = null;
+var BBOX = null;
 
 /**
  * Constracts the geocode/reverse geocode url for the query to mapbox.
@@ -26,7 +28,13 @@ var __geocodeQuery = function (dataset, query, done) {
         return done('You have to specify the location to geocode.');
     }
 
-    var url = BASE_URL + dataset + '/' + query + '.json?access_token=' + ACCESS_TOKEN;
+    var url = BASE_URL +
+              dataset + '/' +
+              query + '.json' +
+              '?access_token=' + ACCESS_TOKEN +
+              '&country=US' +
+              (BBOX ? `&bbox=${BBOX}` : '') + // minX,minY,maxX,maxY
+              (CENTER ? `&${CENTER[0]},${CENTER[1]}` : '');
 
     request(url , function (err, response, body) {
         if (err || response.statusCode !== 200) {
@@ -45,6 +53,19 @@ module.exports = {
      */
     setAccessToken: function (accessToken) {
         ACCESS_TOKEN = accessToken;
+    },
+
+    /**
+     * Sets the location to use for proximity geocoding search.
+     * @param {[longitude, latitude]}
+     *
+     */
+    setSearchCenter: function (center) {
+        CENTER = center;
+    },
+
+    setSearchBounds: function (bbox) {
+        BBOX = bbox;
     },
 
     /**
