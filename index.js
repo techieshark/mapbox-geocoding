@@ -33,8 +33,8 @@ var __geocodeQuery = function (dataset, query, done) {
               query + '.json' +
               '?access_token=' + ACCESS_TOKEN +
               '&country=US' +
-              (BBOX ? `&bbox=${BBOX}` : '') + // minX,minY,maxX,maxY
-              (CENTER ? `&${CENTER[0]},${CENTER[1]}` : '');
+              (BBOX ? '&bbox=' + BBOX : '') + // minX,minY,maxX,maxY
+              (CENTER ? '&' + CENTER[0] + ',' + CENTER[1] : '');
 
     request(url , function (err, response, body) {
         if (err || response.statusCode !== 200) {
