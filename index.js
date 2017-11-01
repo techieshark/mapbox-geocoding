@@ -1,7 +1,7 @@
 /**
  * @module mapbox-geocoding
  */
-var request = require('request');
+var request = require('browser-request');
 
 var BASE_URL = 'https://api.mapbox.com/geocoding/v5/';
 var ACCESS_TOKEN = null;
